@@ -22,7 +22,8 @@ def scan_file(df):
 
 if __name__ == '__main__':
     
-    file = read_csv_peptides('peptides_1.csv')
+    filename = 'peptides_1.csv'
+    file = read_csv_peptides(filename)
     results = pd.DataFrame(columns = ['Data','Peptide1','Peptide2','Peptide3'])
     for x,data in enumerate(file.columns):
         
@@ -35,5 +36,9 @@ if __name__ == '__main__':
                 results.loc[x] = {'Data':data,'Peptide1':temp.index[0],'Peptide2':temp.index[1],'Peptide3':np.nan}
             else:
                 results.loc[x] = {'Data':data,'Peptide1':temp.index[0],'Peptide2':np.nan,'Peptide3':np.nan}
+                
+                
+    results = results.set_index('Data')
+    results.to_csv('{}_results.csv'.format(filename.split('.')[0]))
             
             
