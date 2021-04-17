@@ -25,6 +25,7 @@ if __name__ == '__main__':
     filename = 'peptides_1.csv'
     file = read_csv_peptides(filename)
     results = pd.DataFrame(columns = ['Data','Peptide1','Peptide2','Peptide3'])
+    results_abundance = pd.DataFrame(columns = ['Data','Peptide1','Peptide2','Peptide3'])
     for x,data in enumerate(file.columns):
         
         if file[data].isnull().sum() != file.shape[0]:
@@ -32,10 +33,13 @@ if __name__ == '__main__':
             
             if temp.size>2:
                 results.loc[x] = {'Data':data,'Peptide1':temp.index[0],'Peptide2':temp.index[1],'Peptide3':temp.index[2]}
+                results_abundance.loc[x] = {'Data':data,'Peptide1':temp.iloc[0],'Peptide2':temp.iloc[1],'Peptide3':temp.iloc[2]}
             elif temp.size > 1:
                 results.loc[x] = {'Data':data,'Peptide1':temp.index[0],'Peptide2':temp.index[1],'Peptide3':np.nan}
+                results_abundance.loc[x] = {'Data':data,'Peptide1':temp.iloc[0],'Peptide2':temp.iloc[1],'Peptide3':np.nan}
             else:
                 results.loc[x] = {'Data':data,'Peptide1':temp.index[0],'Peptide2':np.nan,'Peptide3':np.nan}
+                results_abundance.loc[x] = {'Data':data,'Peptide1':temp.iloc[0],'Peptide2':np.nan,'Peptide3':np.nan}
                 
                 
     results = results.set_index('Data')
